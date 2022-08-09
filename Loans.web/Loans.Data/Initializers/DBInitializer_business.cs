@@ -13,8 +13,8 @@ namespace Loans.Data.Initializers
             {
                 using (var context = serviceScope.ServiceProvider.GetService<DatabaseContext>())
                 {
-                    using (IDbContextTransaction transaction = context.Database.BeginTransaction())
-                    {
+                    //using (IDbContextTransaction transaction = context.Database.BeginTransaction())
+                    //{
                         List<ClientLoan> loans = new List<ClientLoan>();
 
                         if (!await context.ClientLoans.AnyAsync())
@@ -25,7 +25,7 @@ namespace Loans.Data.Initializers
                             });
                             await InsertWithId(context, loans, "Loan");
                         }
-                    }
+                    //}
                 }
             }
         }

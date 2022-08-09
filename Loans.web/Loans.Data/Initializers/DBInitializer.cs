@@ -24,17 +24,17 @@ namespace Loans.Data.Initializers
             using var serviceScope = _scopeFactory.CreateScope();
 
             using var context = serviceScope.ServiceProvider.GetService<DatabaseContext>();
-            await context!.Database.MigrateAsync();
+            //await context!.Database.MigrateAsync();
         }
 
         private async Task InsertWithId<T>(DatabaseContext context, List<T> list, string tableName) where T : BaseEntity
         {
-            await context.Database.ExecuteSqlRawAsync($"SET IDENTITY_INSERT {tableName} ON;");
+            //await context.Database.ExecuteSqlRawAsync($"SET IDENTITY_INSERT {tableName} ON;");
             context.AddRange(list);
             await context.SaveChangesAsync();
 
-            await context.Database.ExecuteSqlRawAsync($"SET IDENTITY_INSERT {tableName} OFF;");
-            await context.SaveChangesAsync();
+            //await context.Database.ExecuteSqlRawAsync($"SET IDENTITY_INSERT {tableName} OFF;");
+            //await context.SaveChangesAsync();
         }
     }
 }

@@ -20,20 +20,20 @@ namespace Loans.Data.Configurations
                 .IsRequired()
                 .HasMaxLength(50);
 
-            builder.HasMany(x => x.Phones)
-                .WithOne(x => x.Client)
-                .HasForeignKey(x => x.ClientId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //builder.HasMany(x => x.Phones)
+            //    .WithOne(x => x.Client)
+            //    .HasForeignKey(x => x.ClientId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(x => x.Businesses)
-                .WithOne(x => x.Client)
-                .HasForeignKey(x => x.ClientId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //builder.HasMany(x => x.Businesses)
+            //    .WithOne(x => x.Client)
+            //    .HasForeignKey(x => x.ClientId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(x => x.Loans)
-                .WithOne(x => x.Client)
-                .HasForeignKey(x => x.ClientId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //builder.HasMany(x => x.Loans)
+            //    .WithOne(x => x.Client)
+            //    .HasForeignKey(x => x.ClientId)
+            //    .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

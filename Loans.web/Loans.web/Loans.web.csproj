@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Loans.BL\Loans.BL.csproj" />
     <ProjectReference Include="..\Loans.Data\Loans.Data.csproj" />
   </ItemGroup>
 
