@@ -1,0 +1,13 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/LoanProject/v17
+/.vs
+/Loans.web/.vs/Loans.web
+/Loans.web/Loans.BL/bin/Debug/net6.0
+/Loans.web/Loans.BL/obj
+/Loans.web/Loans.Data/bin/Debug/net6.0
+/Loans.web/Loans.Data/obj
+/Loans.web/Loans.web/bin/Debug/net6.0
+/Loans.web/Loans.web/obj
