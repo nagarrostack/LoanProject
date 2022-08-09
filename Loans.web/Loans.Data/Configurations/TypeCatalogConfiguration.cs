@@ -12,9 +12,9 @@ namespace Loans.Data.Configurations
                 .IsRequired()
                 .HasMaxLength(50);
 
-            builder.HasMany(x => x.Catalogs)
-                .WithOne(x => x.Type)
-                .HasForeignKey(x => x.TypeCatalogId);
+            //builder.HasMany(x => x.Catalogs)
+            //    .WithOne(x => x.Type)
+            //    .HasForeignKey(x => x.TypeCatalogId);
         }
     }
 }

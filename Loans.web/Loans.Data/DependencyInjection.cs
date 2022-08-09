@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Loans.Data.Initializers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,12 +9,19 @@ namespace Loans.Data
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<DatabaseContext>(options => {
-                if (Environment.GetEnvironmentVariable("DATABASE_CONNECTION") == null)
-                    Environment.SetEnvironmentVariable("DATABASE_CONNECTION", @"data source=(LocalDB)\MSSQLLocalDB;initial catalog=LoansDB;integrated security=True;");
-                options.UseSqlServer(Environment.GetEnvironmentVariable("DATABASE_CONNECTION")!);
+            //services.AddDbContext<DatabaseContext>(options =>
+            //{
+            //    if (Environment.GetEnvironmentVariable("DATABASE_CONNECTION") == null)
+            //        Environment.SetEnvironmentVariable("DATABASE_CONNECTION", @"data source=(LocalDB)\MSSQLLocalDB;initial catalog=LoansDB;integrated security=True;");
+            //    options.UseSqlServer(Environment.GetEnvironmentVariable("DATABASE_CONNECTION")!);
+            //});
+
+            services.AddDbContext<DatabaseContext>(o =>
+            {
+                o.UseInMemoryDatabase("LoansDB");
             });
 
+            services.AddScoped<IDBInitializer, DBInitializer>();
             return services;
         }
     }
