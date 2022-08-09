@@ -21,7 +21,7 @@ namespace Loans.Data.Initializers
                         {
                             loans.AddRange(new ClientLoan[]
                             {
-                                new ClientLoan{ Id = 1, ClientId = 1 }
+                                new ClientLoan{ Id = 1, ClientId = 1, AmountRequest = 1, APR = 4, OutstandingDebt = 25000, LateLoans = 0, QtyMonthsPayment = 12, Rating = 600 }
                             });
                             await InsertWithId(context, loans, "Loan");
                         }
