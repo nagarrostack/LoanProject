@@ -9,13 +9,14 @@ namespace Loans.Data.Entities
         public string LastName { get; set; }
         public int TitleId { get; set; }
         public int GenderId { get; set; }
+        public int CountryId { get; set; }
 
         public Catalog GenderCatalog { get; set; }
         public Catalog TitleCatalog { get; set; }
+        public Catalog CountryCatalog { get; set; }
 
         //public IList<ClientPhone> Phones { get; private set; } = new List<ClientPhone>();
         //public IList<ClientBusinessInfo> Businesses { get; private set; } = new List<ClientBusinessInfo>();
         //public IList<ClientLoan> Loans { get; private set; } = new List<ClientLoan>();
-
     }
 }
