@@ -3,7 +3,6 @@ using Loans.BL.Client.Interfaces;
 using Loans.BL.Client.Services;
 using Loans.BL.Configuration.Interfaces;
 using Loans.BL.Configuration.Services;
-using Loans.BL.Loan.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
