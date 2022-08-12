@@ -17,12 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Loans.BL\Loans.BL.csproj" />
     <ProjectReference Include="..\Loans.Data\Loans.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="3_API\" />
-    <Folder Include="2_BusinessLogic\" />
   </ItemGroup>
 
 </Project>
