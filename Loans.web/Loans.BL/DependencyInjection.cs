@@ -3,6 +3,8 @@ using Loans.BL.Client.Interfaces;
 using Loans.BL.Client.Services;
 using Loans.BL.Configuration.Interfaces;
 using Loans.BL.Configuration.Services;
+using Loans.BL.Loan.Interfaces;
+using Loans.BL.Loan.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -18,6 +20,7 @@ namespace Loans.BL
                 .AddTransient<IClientsService, ClientsService>()
                 .AddTransient<IClientBusinessesService, ClientBusinessesService>()
                 .AddTransient<IClientPhonesService, ClientPhonesService>()
+                .AddTransient<ILoanService, LoanService>()
                 ;
 
             services.AddFluentValidation(options =>
