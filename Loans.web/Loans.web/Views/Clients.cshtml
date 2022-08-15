@@ -1,0 +1,23 @@
+﻿@using Loans.web.Models
+
+@model List<Client>
+
+<h2>Clients list</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </thead>
+</table>
+@foreach (var item in Model)
+{
+    <td>@item.Id</td>
+    <td>@item.Title @item.LastName @item.Name, @item.MidName</td>
+    <td>@item.Country</td>
+    <td>@Html.ActionLink(linkText: item.Id.ToString(), actionName: "Delete", controllerName: "Client")</td>
+    <td></td>
+}

@@ -1,4 +1,4 @@
-﻿namespace Loans.web.Models
+﻿namespace Loans.WebApp.Models
 {
     public class Client
     {

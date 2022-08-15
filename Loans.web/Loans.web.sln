@@ -17,7 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Front", "2. Front", "{63
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Testing", "3. Testing", "{70BC11BF-D86B-4C62-95FD-E472407E81C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loans.Testing", "Loans.Testing\Loans.Testing.csproj", "{7555429C-CAA4-4A66-95D8-2A9967A6CA44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Loans.Testing", "Loans.Testing\Loans.Testing.csproj", "{7555429C-CAA4-4A66-95D8-2A9967A6CA44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loans.WebApp", "Loans.WebApp\Loans.WebApp.csproj", "{6700E1D2-A75E-424C-A5E0-54B0ABCDCE54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{7555429C-CAA4-4A66-95D8-2A9967A6CA44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7555429C-CAA4-4A66-95D8-2A9967A6CA44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7555429C-CAA4-4A66-95D8-2A9967A6CA44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6700E1D2-A75E-424C-A5E0-54B0ABCDCE54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6700E1D2-A75E-424C-A5E0-54B0ABCDCE54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6700E1D2-A75E-424C-A5E0-54B0ABCDCE54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6700E1D2-A75E-424C-A5E0-54B0ABCDCE54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{D2CE63AF-3483-494C-BA09-A4F4E5BC268B} = {6336BA73-7FFC-40DC-802A-C690CA4BAA54}
 		{AD112F87-AB30-46FE-9B19-28B4951B6BA8} = {BDF77973-AB7A-4CFD-BA23-2C1FED163652}
 		{7555429C-CAA4-4A66-95D8-2A9967A6CA44} = {70BC11BF-D86B-4C62-95FD-E472407E81C0}
+		{6700E1D2-A75E-424C-A5E0-54B0ABCDCE54} = {63451AA1-9BD5-41B0-B0B2-E45A8F612939}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17BDB0D9-4621-45C4-B392-E961A6E50940}

@@ -1,44 +1,48 @@
 using Loans.BL.Client.Interfaces;
-using Loans.web.Models;
+using Loans.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
-namespace Loans.web.Controllers
+namespace Loans.WebApp.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class ClientController : ControllerBase
+    public class ClientController : Controller
     {
 
-        private readonly ILogger<LoanController> _logger;
+        private readonly ILogger<ClientController> _logger;
         private readonly IClientsService service;
 
-        public ClientController(ILogger<LoanController> logger, IClientsService clientService)
+        public ClientController(ILogger<ClientController> logger, IClientsService clientService)
         {
             _logger = logger;
             service = clientService;
         }
 
-        [HttpGet]
-            public async Task<IEnumerable<Client>> Get()
+        public async Task<ActionResult> Index()
         {
-            var response = await service.GetAllClientsAsync();
+            var clients = await service.GetAllClientsAsync();
 
-            return response.Select(c => new Client
-            {
-                Id = c.Id,
-                CountryId = c.CountryId,
-                Country = c.CountryCatalog.Name,
-                GenderId = c.GenderId,
-                Gender = c.GenderCatalog.Name,
-                TitleId = c.TitleId,
-                Title = c.TitleCatalog.Name,
-                LastName = c.LastName,
-                MidName = c.MidName,
-                Name = c.Name
-            }).ToList();
+            var response =
+                clients.Select(c => new Client
+                {
+                    Id = c.Id,
+                    CountryId = c.CountryId,
+                    Country = c.CountryCatalog.Name,
+                    GenderId = c.GenderId,
+                    Gender = c.GenderCatalog.Name,
+                    TitleId = c.TitleId,
+                    Title = c.TitleCatalog.Name,
+                    LastName = c.LastName,
+                    MidName = c.MidName,
+                    Name = c.Name
+                }).ToList();
+
+            return View(response);
+
         }
 
-        [HttpGet("ById/{id}")]
         public async Task<Client> GetById(int id)
         {
             var response = await service.GetClientByIdAsync(id);
@@ -58,7 +62,7 @@ namespace Loans.web.Controllers
             };
         }
 
-        [HttpGet("ByName/{name}")]
+
         public async Task<IEnumerable<Client>> GetByName(string name)
         {
             var response = await service.GetClientByNameAsync(name);
@@ -78,7 +82,7 @@ namespace Loans.web.Controllers
             }).ToList();
         }
 
-        [HttpGet("ByGender/{idGender}")]
+
         public async Task<IEnumerable<Client>> GetByGender(int idGender)
         {
             var response = await service.GetClientByGenderIdAsync(idGender);
@@ -98,7 +102,7 @@ namespace Loans.web.Controllers
             }).ToList();
         }
 
-        [HttpGet("ByCountry/{idCountry}")]
+
         public async Task<IEnumerable<Client>> GetByCountry(int idCountry)
         {
             var response = await service.GetClientByCountryIdAsync(idCountry);
@@ -118,7 +122,7 @@ namespace Loans.web.Controllers
             }).ToList();
         }
 
-        [HttpPost]
+
         public async Task<Client> Post([FromBody] Client client)
         {
             var response = await service.SaveClientAsync(new BL.Client.Dtos.ClientDto
@@ -148,7 +152,7 @@ namespace Loans.web.Controllers
             };
         }
 
-        [HttpPut("{id}")]
+
         public async Task<Client> Put(int id, [FromBody] Client client)
         {
             if (id == client.Id)
@@ -181,7 +185,7 @@ namespace Loans.web.Controllers
             throw new ArgumentException("Client's data doesn't match.");
         }
 
-        [HttpDelete("Delete/{id}")]
+
         public async Task<bool> Del(int id)
         {
             var response = await service.DeleteClientAsync(id);
