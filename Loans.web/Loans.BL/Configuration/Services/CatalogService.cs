@@ -19,7 +19,10 @@ namespace Loans.BL.Configuration.Services
         public async Task<CatalogDto> GetCatalogByIdAsync(int id)
         {
             var result = context.Catalogs.FirstOrDefault(c => c.Id == id);
-            return mapper.Map<CatalogDto>(result);
+            if (result == null)
+                return null;
+            else
+                return mapper.Map<CatalogDto>(result);
         }
 
         public async Task<IList<CatalogDto>> GetCatalogsByNameAsync(string name)

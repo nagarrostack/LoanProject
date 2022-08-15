@@ -10,7 +10,7 @@ namespace Loans.BL.Client.Interfaces
         Task<IList<ClientDto>> GetClientByGenderIdAsync(int id);
         Task<IList<ClientDto>> GetClientByCountryIdAsync(int id);
 
-        Task DeleteClientAsync(int id);
+        Task<bool> DeleteClientAsync(int id);
         Task <ClientDto> SaveClientAsync(ClientDto client);
     }
 }

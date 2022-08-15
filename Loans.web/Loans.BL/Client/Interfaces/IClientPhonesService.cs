@@ -10,7 +10,7 @@ namespace Loans.BL.Client.Interfaces
         Task<ClientPhoneDto> GetClientPhonesByIdAsync(int id);
         Task<ClientPhoneDto> GetClientPhonesByNumberAsync(string number);
 
-        Task DeleteClientPhoneAsync(int id);
+        Task<bool> DeleteClientPhoneAsync(int id);
         Task<ClientPhoneDto> SaveClientPhoneAsync(ClientPhoneDto clientPhone);
     }
 }

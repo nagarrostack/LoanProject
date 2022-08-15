@@ -10,7 +10,7 @@ namespace Loans.BL.Loan.Interfaces
         Task<IList<ClientLoanDto>> GetClientLoansByRating(int rating);
         Task<IList<ClientLoanDto>> GetClientLoansByLoanDate(DateTime dateLoan);
 
-        Task DeleteClientLoan(int id);
+        Task<bool> DeleteClientLoan(int id);
         Task<ClientLoanDto> SaveClientLoans(ClientLoanDto clientLoan);
     }
 }
