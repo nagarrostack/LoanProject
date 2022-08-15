@@ -1,6 +1,6 @@
+using Loans.BL;
 using Loans.Data;
 using Loans.Data.Entities;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Loans.Testing
 {
@@ -26,7 +26,7 @@ namespace Loans.Testing
         public void Init()
         {
             services = new ServiceCollection();
-            //services.AddApplication();
+            services.AddApplication();
             services.AddInfrastructure();
             serviceProvider = services.BuildServiceProvider();
             context = serviceProvider.GetService<DatabaseContext>();
