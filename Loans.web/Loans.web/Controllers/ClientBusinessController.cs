@@ -36,7 +36,7 @@ namespace Loans.web.Controllers
                     CountryId = c.Client.CountryId,
                     GenderId = c.Client.GenderId,
                     TitleId = c.Client.TitleId,
-                    LastName= c.Client.LastName,
+                    LastName = c.Client.LastName,
                     MidName = c.Client.MidName,
                     Name = c.Client.Name,
                     Country = c.Client.CountryCatalog.Name,
@@ -46,7 +46,7 @@ namespace Loans.web.Controllers
             }).ToList();
         }
 
-        [HttpGet("/ByName/{name}")]
+        [HttpGet("ByName/{name}")]
         public async Task<IEnumerable<ClientBusiness>> GetByName(string name)
         {
             var response = await service.GetClientBusinessByNameAsync(name);
@@ -75,7 +75,7 @@ namespace Loans.web.Controllers
             }).ToList();
         }
 
-        [HttpGet("/ByClient/{id}")]
+        [HttpGet("ByClient/{id}")]
         public async Task<IEnumerable<ClientBusiness>> GetByClientId(int id)
         {
             var response = await service.GetClientBusinessesByClientIdAsync(id);
@@ -104,7 +104,7 @@ namespace Loans.web.Controllers
             }).ToList();
         }
 
-        [HttpGet("/ById/{id}")]
+        [HttpGet("ById/{id}")]
         public async Task<ClientBusiness> GetById(int id)
         {
             var response = await service.GetClientBusinessByIdAsync(id);
@@ -171,10 +171,10 @@ namespace Loans.web.Controllers
 
         }
 
-        [HttpPut("/{id}")]
+        [HttpPut("{id}")]
         public async Task<ClientBusiness> Put(int id, [FromBody] ClientBusiness clientBusiness)
         {
-            if(id == clientBusiness.Id)
+            if (id == clientBusiness.Id)
             {
                 var response = await service.SaveClientBusinessAsync(new BL.Client.Dtos.ClientBusinessDto
                 {

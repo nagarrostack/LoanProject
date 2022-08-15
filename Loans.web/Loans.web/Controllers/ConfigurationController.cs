@@ -30,7 +30,7 @@ namespace Loans.web.Controllers
             }).ToList();
         }
 
-        [HttpGet("/ByType/{id}")]
+        [HttpGet("ByType/{id}")]
         public async Task<IEnumerable<Catalog>> GetByTypeId(int id)
         {
             var response = await service.GetCatalogsByTypeCatalogIdAsync(id);
