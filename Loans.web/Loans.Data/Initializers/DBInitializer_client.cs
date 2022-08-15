@@ -35,12 +35,17 @@ namespace Loans.Data.Initializers
 
                     for (int i = 0; i < 100; i++)
                     {
+                        int countryId = (r.Next(100) % 4) + 6;
+                        int genderId = (r.Next(100) % 2) + 1;
                         var client = new Client
                         {
                             Id = i + 1,
-                            GenderId = (r.Next(100) % 2) + 1,
+                            GenderId = genderId,
+                            GenderCatalog = context.Catalogs.Find(genderId),
                             MidName = Convert.ToChar((r.Next(100) % 13) + 65).ToString(),
-                            CountryId = (r.Next(100) % 4) + 6
+                            LastName = "",
+                            CountryId = countryId,
+                            CountryCatalog = context.Catalogs.Find(countryId)
                         };
                         if (client.GenderId == 1)
                         {
@@ -52,6 +57,8 @@ namespace Loans.Data.Initializers
                             client.TitleId = 3;
                             client.Name = maleNames[client.CountryId - 6][r.Next(100) % 6];
                         }
+                        client.TitleCatalog = context.Catalogs.Find(client.TitleId);
+
                         clients.Add(client);
                     }
 
@@ -59,14 +66,15 @@ namespace Loans.Data.Initializers
 
                     if (!await context.ClientPhones.AnyAsync())
                     {
-                        clientPhones.AddRange(new ClientPhone[] {
-                                new ClientPhone{ Id = 1, ClientId = 1, CountryCodeId = 6, TypePhoneId = 10, Number ="222222221"},
-                                new ClientPhone{ Id = 2, ClientId = 1, CountryCodeId = 6, TypePhoneId = 11, Number ="222222222"},
-                                new ClientPhone{ Id = 3, ClientId = 2, CountryCodeId = 6, TypePhoneId = 10, Number ="222222223"},
-                                new ClientPhone{ Id = 4, ClientId = 2, CountryCodeId = 6, TypePhoneId = 11, Number ="222222224"},
-                                new ClientPhone{ Id = 5, ClientId = 3, CountryCodeId = 6, TypePhoneId = 10, Number ="222222225"},
-                                new ClientPhone{ Id = 6, ClientId = 3, CountryCodeId = 6, TypePhoneId = 11, Number ="222222226"}
-                            });
+                        for (int i = 0; i < 100; i++)
+                        {
+                            var clientPhone1 = new ClientPhone { Id = (i * 2) + 1, ClientId = i, CountryCodeId = clients[i].CountryId + 4, TypePhoneId = (r.Next(100) % 3) + 10, Number = $"{r.Next(9)}{r.Next(9)}{r.Next(9)}-{r.Next(9)}{r.Next(9)}{r.Next(9)}-{r.Next(9)}{r.Next(9)}{r.Next(9)}{r.Next(9)}" };
+                            var clientPhone2 = new ClientPhone { Id = (i * 2) + 2, ClientId = i, CountryCodeId = clients[i].CountryId + 4, TypePhoneId = (r.Next(100) % 3) + 10, Number = $"{r.Next(9)}{r.Next(9)}{r.Next(9)}-{r.Next(9)}{r.Next(9)}{r.Next(9)}-{r.Next(9)}{r.Next(9)}{r.Next(9)}{r.Next(9)}" };
+                            clientPhones.Add(clientPhone1);
+                            clientPhones.Add(clientPhone2);
+                        }
+
+                        context.ClientPhones.AddRange(clientPhones);
 
                         await InsertWithId(context, clientPhones, "ClientPhone");
                     }
