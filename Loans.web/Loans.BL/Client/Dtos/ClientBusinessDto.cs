@@ -8,5 +8,6 @@ namespace Loans.BL.Client.Dtos
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public int TaxId{ get; set; }
+        public ClientDto Client { get; set; }
     }
 }

@@ -16,8 +16,8 @@ namespace Loans.BL
                 .AddTransient<ITypeCatalogService, TypeCatalogService>()
                 .AddTransient<ICatalogService, CatalogService>()
                 .AddTransient<IClientsService, ClientsService>()
-                //.AddTransient<IClientBusinessesService, IClientBusinessesService>()
-                //.AddTransient<IClientPhonesService, ClientPhonesService>()
+                .AddTransient<IClientBusinessesService, ClientBusinessesService>()
+                .AddTransient<IClientPhonesService, ClientPhonesService>()
                 ;
 
             services.AddFluentValidation(options =>
