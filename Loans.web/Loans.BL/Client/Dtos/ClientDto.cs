@@ -1,4 +1,5 @@
 ﻿using Loans.BL.BaseDtos;
+using Loans.BL.Configuration.Dtos;
 
 namespace Loans.BL.Client.Dtos
 {
@@ -17,5 +18,9 @@ namespace Loans.BL.Client.Dtos
         public int TitleId { get; set; }
         public int GenderId { get; set; }
         public int CountryId { get; set; }
+
+        public CatalogDto CountryCatalog { get; set; }
+        public CatalogDto TitleCatalog { get; set; }
+        public CatalogDto GenderCatalog { get; set; }
     }
 }

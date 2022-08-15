@@ -3,6 +3,8 @@ using Loans.BL.BaseServices;
 using Loans.BL.Client.Dtos;
 using Loans.BL.Client.Interfaces;
 using Loans.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Loans.BL.Client.Services
 {
@@ -33,25 +35,41 @@ namespace Loans.BL.Client.Services
 
         public async Task<IList<ClientDto>> GetAllClientsAsync()
         {
-            var result = context.Clients.ToList();
+            var result = context.Clients
+                .Include(c => c.CountryCatalog)
+                .Include(c => c.GenderCatalog)
+                .Include(c => c.TitleCatalog)
+                .ToList();
             return mapper.Map<List<ClientDto>>(result);
         }
 
         public async Task<IList<ClientDto>> GetClientByCountryIdAsync(int id)
         {
-            var result = context.Clients.Where(c => c.CountryId == id).ToList();
+            var result = context.Clients
+                .Include(c => c.CountryCatalog)
+                .Include(c => c.GenderCatalog)
+                .Include(c => c.TitleCatalog)
+                .Where(c => c.CountryId == id).ToList();
             return mapper.Map<List<ClientDto>>(result);
         }
 
         public async Task<IList<ClientDto>> GetClientByGenderIdAsync(int id)
         {
-            var result = context.Clients.Where(c => c.GenderId == id).ToList();
+            var result = context.Clients
+                .Include(c => c.CountryCatalog)
+                .Include(c => c.GenderCatalog)
+                .Include(c => c.TitleCatalog)
+                .Where(c => c.GenderId == id).ToList();
             return mapper.Map<List<ClientDto>>(result);
         }
 
         public async Task<ClientDto> GetClientByIdAsync(int id)
         {
-            var result = context.Clients.FirstOrDefault(c => c.Id == id);
+            var result = context.Clients
+                .Include(c => c.CountryCatalog)
+                .Include(c => c.GenderCatalog)
+                .Include(c => c.TitleCatalog)
+                .FirstOrDefault(c => c.Id == id);
             if (result == null)
                 return null;
             else
@@ -60,13 +78,22 @@ namespace Loans.BL.Client.Services
 
         public async Task<IList<ClientDto>> GetClientByNameAsync(string name)
         {
-            var result = context.Clients.Where(c => c.Name.ToUpper().Contains(name.ToUpper())).ToList();
+            var result = context.Clients
+                .Include(c => c.CountryCatalog)
+                .Include(c => c.GenderCatalog)
+                .Include(c => c.TitleCatalog)
+                .Where(c => c.Name.ToUpper().Contains(name.ToUpper())).ToList();
             return mapper.Map<List<ClientDto>>(result);
         }
 
         public async Task<ClientDto> SaveClientAsync(ClientDto client)
         {
             Data.Entities.Client entity;
+            Data.Entities.Catalog 
+                catGender = context.Catalogs.Find(client.GenderId),
+                catCountry = context.Catalogs.Find(client.CountryId),
+                catTitle = context.Catalogs.Find(client.TitleId);
+
             if (client.Id == 0)
             {
                 entity = mapper.Map<Data.Entities.Client>(client);
@@ -76,11 +103,18 @@ namespace Loans.BL.Client.Services
             }
             else
             {
-                entity = context.Clients.FirstOrDefault(c => c.Id == client.Id);
+                entity = context.Clients
+                    .FirstOrDefault(c => c.Id == client.Id);
                 mapper.Map<ClientDto,Data.Entities.Client>(client, entity);
             }
-            context.SaveChanges();
-            return client;
+
+            entity.TitleCatalog = catTitle;
+            entity.CountryCatalog = catCountry;
+            entity.GenderCatalog = catGender;
+            await context.SaveChangesAsync();
+
+            var result = await GetClientByIdAsync(entity.Id);
+            return result;
         }
     }
 }
