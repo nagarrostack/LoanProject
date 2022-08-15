@@ -21,11 +21,12 @@ namespace Loans.Data.Initializers
 
                         if (!await context.TypeCatalogs.AnyAsync())
                         {
-                            typeCatalogs.AddRange(new TypeCatalog[] { 
+                            typeCatalogs.AddRange(new TypeCatalog[] {
                                 new TypeCatalog{Id = 1, Name = "Gender"},
                                 new TypeCatalog{Id = 2, Name = "Title"},
-                                new TypeCatalog{Id = 3, Name = "Country code"},
-                                new TypeCatalog{Id = 4, Name = "Phone type"}
+                                new TypeCatalog{Id = 3, Name = "Country"},
+                                new TypeCatalog{Id = 4, Name = "Country code"},
+                                new TypeCatalog{Id = 5, Name = "Phone type"}
                             });
 
                             await InsertWithId(context, typeCatalogs, "TypeCatalog");
@@ -43,9 +44,13 @@ namespace Loans.Data.Initializers
                                 new Catalog{Id =  7, Name = "Mexico", TypeCatalogId = 3},
                                 new Catalog{Id =  8, Name = "India", TypeCatalogId = 3},
                                 new Catalog{Id =  9, Name = "Germany", TypeCatalogId = 3},
-                                new Catalog{Id = 10, Name = "Local phone number", TypeCatalogId = 4},
-                                new Catalog{Id = 11, Name = "Cell phone number", TypeCatalogId = 4},
-                                new Catalog{Id = 12, Name = "Office phone number", TypeCatalogId = 4}
+                                new Catalog{Id = 10, Name = "+1", TypeCatalogId = 4},
+                                new Catalog{Id = 11, Name = "+52", TypeCatalogId = 4},
+                                new Catalog{Id = 12, Name = "+91", TypeCatalogId = 4},
+                                new Catalog{Id = 13, Name = "+49", TypeCatalogId = 4},
+                                new Catalog{Id = 14, Name = "Local phone number", TypeCatalogId = 5},
+                                new Catalog{Id = 15, Name = "Cell phone number", TypeCatalogId = 5},
+                                new Catalog{Id = 16, Name = "Office phone number", TypeCatalogId = 5}
                             });
 
                             await InsertWithId(context, catalogs, "Catalog");

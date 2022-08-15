@@ -74,6 +74,10 @@ namespace Loans.Testing
 
             Random r = new Random(100);
 
+            context.TypeCatalogs.AddRange(catalogTypes);
+            context.Catalogs.AddRange(catalogs);
+            context.SaveChanges();
+
             // Clients
             for (int i = 0; i < 100; i++)
             {
@@ -95,6 +99,9 @@ namespace Loans.Testing
                     client.TitleId = 3;
                     client.Name = maleNames[client.CountryId - 6][r.Next(100) % 6];
                 }
+                client.CountryCatalog = context.Catalogs.Find(client.CountryId);
+                client.GenderCatalog = context.Catalogs.Find(client.GenderId);
+                client.TitleCatalog = context.Catalogs.Find(client.TitleId);
                 clients.Add(client);
             }
 
@@ -107,8 +114,6 @@ namespace Loans.Testing
                 clientPhones.Add(clientPhone2);
             }
 
-            context.TypeCatalogs.AddRange(catalogTypes);
-            context.Catalogs.AddRange(catalogs);
             context.Clients.AddRange(clients);
             context.ClientPhones.AddRange(clientPhones);
 

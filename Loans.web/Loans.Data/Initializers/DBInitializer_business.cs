@@ -22,15 +22,16 @@ namespace Loans.Data.Initializers
 
                         for (int i = 1; i <= 45; i++)
                         {
-                            var client = context.Clients.Find(i);
+                            var client = context.Clients.Find(r.Next(1,100));
                             var businessInfo = new ClientBusinessInfo
                             {
                                 Id = i,
-                                ClientId = r.Next(100),
+                                ClientId = client.Id,
                                 Address = $"{i} Street #{i}",
                                 Name = $"{client.Name}'s Busness demo {client.Id}",
                                 PhoneNumber = $"555-444-{client.Id.ToString().PadLeft(4, '0')}",
-                                TaxId = 1
+                                TaxId = 1,
+                                Client = client
                             };
                             businessInfos.Add(businessInfo);
                         }

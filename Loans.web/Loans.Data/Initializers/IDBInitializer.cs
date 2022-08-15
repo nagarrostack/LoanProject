@@ -7,5 +7,6 @@
         Task SeedConfiguration();
         Task SeedClient();
         Task SeedLoan();
+        Task SeedBusiness();
     }
 }

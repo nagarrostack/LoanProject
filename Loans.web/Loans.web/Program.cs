@@ -42,6 +42,7 @@ async Task InitializeDatabase(WebApplication app)
         await dbInitializer!.Initialize();
         await dbInitializer!.SeedConfiguration();
         await dbInitializer!.SeedClient();
+        await dbInitializer!.SeedBusiness();
         await dbInitializer!.SeedLoan();
     }
 }
