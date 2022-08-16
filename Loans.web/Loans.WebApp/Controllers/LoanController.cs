@@ -120,14 +120,8 @@ namespace Loans.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> PostClientInfo([FromForm] FullEditLoan editLoan)
         {
-            return View("BusinessData", editLoan);
-        }
-
-        public async Task<ActionResult> BusinessData([FromForm] FullEditLoan editLoan)
-        {
             editLoan.BusinessInfo.ClientId = editLoan.ClientInfo.Id;
-
-            return View(editLoan);
+            return View("BusinessData", editLoan);
         }
 
         [HttpPost]
@@ -144,6 +138,38 @@ namespace Loans.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> PostLoanData([FromForm] FullEditLoan editLoan)
         {
+
+            var resultClient = await clientsService.SaveClientAsync(new BL.Client.Dtos.ClientDto
+            {
+                CountryId = editLoan.ClientInfo.CountryId,
+                GenderId = editLoan.ClientInfo.GenderId,
+                Id = editLoan.ClientInfo.Id,
+                LastName = editLoan.ClientInfo.LastName,
+                MidName = editLoan.ClientInfo.MidName,
+                Name = editLoan.ClientInfo.Name,
+                TitleId = editLoan.ClientInfo.TitleId
+            });
+            var resultBusiness = await businessService.SaveClientBusinessAsync(new BL.Client.Dtos.ClientBusinessDto { 
+                Address = editLoan.BusinessInfo.Address,
+                ClientId = editLoan.ClientInfo.Id,
+                Id = editLoan.BusinessInfo.Id,
+                Name = editLoan.BusinessInfo.Name,
+                PhoneNumber = editLoan.BusinessInfo.PhoneNumber,
+                TaxId = editLoan.BusinessInfo.TaxId
+            });
+            var resultLoan = await service.SaveClientLoans(new BL.Loan.Dtos.ClientLoanDto { 
+                AmountRequest = editLoan.LoanInfo.AmountRequest,
+                APR = editLoan.LoanInfo.APR,
+                ClientId = editLoan.LoanInfo.ClientId,
+                Id = editLoan.LoanInfo.Id,
+                LateLoans = editLoan.LoanInfo.LateLoans,
+                LoanDate = editLoan.LoanInfo.LoanDate,
+                OutstandingDebt = editLoan.LoanInfo.OutstandingDebt,
+                QtyMonthsPayment = editLoan.LoanInfo.QtyMonthsPayment,
+                Rating = editLoan.LoanInfo.Rating,
+                Risk = editLoan.LoanInfo.Risk
+            });
+
             return RedirectToAction("Index");
         }
     }
