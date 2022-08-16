@@ -1,3 +1,5 @@
+using Loans.BL.Client.Interfaces;
+using Loans.BL.Configuration.Interfaces;
 using Loans.BL.Loan.Interfaces;
 using Loans.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,11 +10,26 @@ namespace Loans.WebApp.Controllers
     {
         private readonly ILogger<LoanController> _logger;
         private readonly ILoanService service;
+        private readonly IClientsService clientsService;
+        private readonly IClientBusinessesService businessService;
+        private readonly ICatalogService catalogsService;
+        private readonly ITypeCatalogService typeCatalogsService;
 
-        public LoanController(ILogger<LoanController> logger, ILoanService clientService)
+
+        public LoanController(ILogger<LoanController> logger,
+            ITypeCatalogService typeCatalogsService,
+            ICatalogService catalogsService,
+            IClientsService clientsService,
+            IClientBusinessesService businessService,
+            ILoanService loanService
+            )
         {
             _logger = logger;
-            service = clientService;
+            this.typeCatalogsService = typeCatalogsService;
+            this.catalogsService = catalogsService;
+            this.clientsService = clientsService;
+            this.businessService = businessService;
+            service = loanService;
         }
 
         public async Task<ActionResult> Index()
@@ -35,6 +52,125 @@ namespace Loans.WebApp.Controllers
                 }).ToList();
 
             return View(response);
+        }
+
+        public async Task<ActionResult> ClientInfo(int? id)
+        {
+            var catGenderId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Gender");
+            var catCountryId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Country");
+            var catTitleId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Title");
+
+            var countries = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catCountryId.First().Id);
+            var genders = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catGenderId.First().Id);
+            var titles = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catTitleId.First().Id);
+
+            var loanData = await service.GetClientLoansById(id.Value);
+            var clientData = await clientsService.GetClientByIdAsync(loanData.ClientId);
+            var businessData = (await businessService.GetClientBusinessesByClientIdAsync(loanData.ClientId)).FirstOrDefault();
+
+            FullEditLoan editLoan = new FullEditLoan
+            {
+                CountryCatalog = countries.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList(),
+                GenderCatalog = genders.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList(),
+                TitleCatalog = titles.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList(),
+                ClientInfo = new Client
+                {
+                    CountryId = clientData.CountryId,
+                    GenderId = clientData.GenderId,
+                    Id = loanData.ClientId,
+                    LastName = clientData.LastName,
+                    MidName = clientData.MidName,
+                    Name = clientData.Name,
+                    TitleId = clientData.TitleId
+                },
+                BusinessInfo = new ClientBusiness
+                {
+                },
+                LoanInfo = new Loan
+                {
+                    AmountRequest = loanData.AmountRequest,
+                    APR = loanData.APR,
+                    ClientId = loanData.ClientId,
+                    Id = loanData.Id,
+                    LateLoans = loanData.LateLoans,
+                    LoanDate = loanData.LoanDate,
+                    OutstandingDebt = loanData.OutstandingDebt,
+                    QtyMonthsPayment = loanData.QtyMonthsPayment,
+                    Rating = loanData.Rating,
+                    Risk = loanData.Risk
+                }
+            };
+
+            if (businessData != null)
+            {
+                editLoan.BusinessInfo = new ClientBusiness
+                {
+                    Address = businessData.Address,
+                    ClientId = businessData.ClientId,
+                    Id = businessData.Id,
+                    Name = businessData.Name,
+                    PhoneNumber = businessData.PhoneNumber,
+                    TaxId = businessData.TaxId
+                };
+            }
+
+            return View(editLoan);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PostClientInfo([FromForm] FullEditLoan editLoan)
+        {
+            editLoan.BusinessInfo.ClientId = editLoan.ClientInfo.Id;
+            return View("BusinessData", editLoan);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PostBusinessData([FromForm] FullEditLoan editLoan)
+        {
+            return View("LoanData", editLoan);
+        }
+
+        public async Task<ActionResult> LoanData([FromForm] FullEditLoan editLoan)
+        {
+            return View(editLoan);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PostLoanData([FromForm] FullEditLoan editLoan)
+        {
+
+            var resultClient = await clientsService.SaveClientAsync(new BL.Client.Dtos.ClientDto
+            {
+                CountryId = editLoan.ClientInfo.CountryId,
+                GenderId = editLoan.ClientInfo.GenderId,
+                Id = editLoan.ClientInfo.Id,
+                LastName = editLoan.ClientInfo.LastName,
+                MidName = editLoan.ClientInfo.MidName,
+                Name = editLoan.ClientInfo.Name,
+                TitleId = editLoan.ClientInfo.TitleId
+            });
+            var resultBusiness = await businessService.SaveClientBusinessAsync(new BL.Client.Dtos.ClientBusinessDto { 
+                Address = editLoan.BusinessInfo.Address,
+                ClientId = editLoan.ClientInfo.Id,
+                Id = editLoan.BusinessInfo.Id,
+                Name = editLoan.BusinessInfo.Name,
+                PhoneNumber = editLoan.BusinessInfo.PhoneNumber,
+                TaxId = editLoan.BusinessInfo.TaxId
+            });
+            var resultLoan = await service.SaveClientLoans(new BL.Loan.Dtos.ClientLoanDto { 
+                AmountRequest = editLoan.LoanInfo.AmountRequest,
+                APR = editLoan.LoanInfo.APR,
+                ClientId = editLoan.LoanInfo.ClientId,
+                Id = editLoan.LoanInfo.Id,
+                LateLoans = editLoan.LoanInfo.LateLoans,
+                LoanDate = editLoan.LoanInfo.LoanDate,
+                OutstandingDebt = editLoan.LoanInfo.OutstandingDebt,
+                QtyMonthsPayment = editLoan.LoanInfo.QtyMonthsPayment,
+                Rating = editLoan.LoanInfo.Rating,
+                Risk = editLoan.LoanInfo.Risk
+            });
+
+            return RedirectToAction("Index");
         }
     }
 }

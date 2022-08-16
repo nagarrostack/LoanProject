@@ -1,0 +1,61 @@
+﻿@using Loans.WebApp.Models
+
+@model FullEditLoan
+
+<h2>Loan</h2>
+
+@using (Html.BeginForm("PostClientInfo", "Loan", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.ClientInfo.Id)
+
+    @Html.Label("Title:")
+    @Html.DropDownListFor(m => m.ClientInfo.TitleId,
+    new SelectList(Model.TitleCatalog, "Id", "Name"),
+    "Select Title")
+    <br />
+
+    @Html.Label("Last name:")
+    @Html.TextBoxFor(m => m.ClientInfo.LastName)
+    <br />
+
+    @Html.Label("Mid name:")
+    @Html.TextBoxFor(m => m.ClientInfo.MidName)
+    <br />
+
+    @Html.Label("First name:")
+    @Html.TextBoxFor(m => m.ClientInfo.Name)
+    <br />
+
+    @Html.Label("Gender:")
+    @Html.DropDownListFor(m => m.ClientInfo.GenderId,
+    new SelectList(Model.GenderCatalog, "Id", "Name"),
+    "Select Country")
+    <br />
+
+    @Html.Label("Country:")
+    @Html.DropDownListFor(m => m.ClientInfo.CountryId,
+    new SelectList(Model.CountryCatalog, "Id", "Name"),
+    "Select Country")
+    <br />
+
+    @Html.HiddenFor(m => m.BusinessInfo.Address)
+    @Html.HiddenFor(m => m.BusinessInfo.ClientId)
+    @Html.HiddenFor(m => m.BusinessInfo.Id)
+    @Html.HiddenFor(m => m.BusinessInfo.Name)
+    @Html.HiddenFor(m => m.BusinessInfo.PhoneNumber)
+    @Html.HiddenFor(m => m.BusinessInfo.TaxId)
+
+    @Html.HiddenFor(m => m.LoanInfo.AmountRequest)
+    @Html.HiddenFor(m => m.LoanInfo.APR)
+    @Html.HiddenFor(m => m.LoanInfo.ClientId)
+    @Html.HiddenFor(m => m.LoanInfo.Id)
+    @Html.HiddenFor(m => m.LoanInfo.LateLoans)
+    @Html.HiddenFor(m => m.LoanInfo.LoanDate)
+    @Html.HiddenFor(m => m.LoanInfo.OutstandingDebt)
+    @Html.HiddenFor(m => m.LoanInfo.QtyMonthsPayment)
+    @Html.HiddenFor(m => m.LoanInfo.Rating)
+    @Html.HiddenFor(m => m.LoanInfo.Risk)
+
+    <input type="submit" value="Continue">
+
+}

@@ -3,13 +3,20 @@
 @model List<Loan>
 
 <h2>Loans list</h2>
-<table>
+<table class="table">
     <thead>
         <tr>
             <td>Id</td>
-            <td>Name</td>
-            <td><Country/td>
-            <td>Action</td>
+            <td>Client Id</td>
+            <td>Amount requested</td>
+            <td>ARP</td>
+            <td>Late loans</td>
+            <td>Loan date</td>
+            <td>Outstanding debt</td>
+            <td>Payment months</td>
+            <td>Rating</td>
+            <td>Risk</td>
+            <td colspan="2">Actions</td>
         </tr>
     </thead>
     <tbody>
@@ -17,16 +24,17 @@
         {
             <tr>
                 <td>@item.Id</td>
+                <td>@item.ClientId</td>
                 <td>@item.AmountRequest</td>
                 <td>@item.APR</td>
-                <td>@item.ClientId</td>
                 <td>@item.LateLoans</td>
                 <td>@item.LoanDate</td>
                 <td>@item.OutstandingDebt</td>
                 <td>@item.QtyMonthsPayment</td>
                 <td>@item.Rating</td>
                 <td>@item.Risk</td>
-                <td>@Html.ActionLink(linkText: item.Id.ToString(), actionName: "Delete", controllerName: "Loan")</td>
+                <td>@Html.ActionLink(linkText: "Edit", actionName: "ClientInfo", controllerName: "Loan", routeValues:new {@id=item.Id})</td>
+                <td>@Html.ActionLink(linkText: "Delete", actionName: "Delete", controllerName: "Loan", routeValues:new {@id=item.Id})</td>
                 <td></td>
             </tr>
         }

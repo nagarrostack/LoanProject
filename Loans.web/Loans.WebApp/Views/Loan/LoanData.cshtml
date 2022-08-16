@@ -1,0 +1,70 @@
+﻿@using Loans.WebApp.Models
+
+@model FullEditLoan
+
+<h2>Loan</h2>
+@using (Html.BeginForm("PostLoanData", "Loan", FormMethod.Post))
+{
+    @Html.Label("Amoubt requested:")
+    @Html.TextBoxFor(m => m.LoanInfo.AmountRequest)
+    <br />
+
+    @Html.Label("APR:")
+    @Html.TextBoxFor(m => m.LoanInfo.APR)
+    <br />
+
+    @Html.Label("Loan Date")
+    @Html.TextBoxFor(m => m.LoanInfo.LoanDate)
+    <br />
+
+    @Html.Label("Outstanding debt:")
+    @Html.TextBoxFor(m => m.LoanInfo.OutstandingDebt)
+    <br />
+
+    @Html.Label("Quantity of months to pay:")
+    @Html.TextBoxFor(m => m.LoanInfo.QtyMonthsPayment)
+    <br />
+
+    @Html.Label("Rating:")
+    @Html.TextBoxFor(m => m.LoanInfo.Rating)
+    <br />
+
+    @Html.Label("Risk:")
+    @Html.TextBoxFor(m => m.LoanInfo.Risk)
+    <br />
+
+    @Html.HiddenFor(m => m.ClientInfo.CountryId)
+    @Html.HiddenFor(m => m.ClientInfo.GenderId)
+    @Html.HiddenFor(m => m.ClientInfo.Id)
+    @Html.HiddenFor(m => m.ClientInfo.LastName)
+    @Html.HiddenFor(m => m.ClientInfo.MidName)
+    @Html.HiddenFor(m => m.ClientInfo.Name)
+    @Html.HiddenFor(m => m.ClientInfo.TitleId)
+
+    @Html.HiddenFor(m => m.BusinessInfo.Address)
+    @Html.HiddenFor(m => m.BusinessInfo.ClientId)
+    @Html.HiddenFor(m => m.BusinessInfo.Id)
+    @Html.HiddenFor(m => m.BusinessInfo.Name)
+    @Html.HiddenFor(m => m.BusinessInfo.PhoneNumber)
+    @Html.HiddenFor(m => m.BusinessInfo.TaxId)
+
+    <input type="submit" value="Continue">
+}
+@using (Html.BeginForm("PostClientInfo", "Loan", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.ClientInfo.CountryId)
+    @Html.HiddenFor(m => m.ClientInfo.GenderId)
+    @Html.HiddenFor(m => m.ClientInfo.Id)
+    @Html.HiddenFor(m => m.ClientInfo.LastName)
+    @Html.HiddenFor(m => m.ClientInfo.MidName)
+    @Html.HiddenFor(m => m.ClientInfo.Name)
+    @Html.HiddenFor(m => m.ClientInfo.TitleId)
+
+    @Html.HiddenFor(m => m.BusinessInfo.Address)
+    @Html.HiddenFor(m => m.BusinessInfo.ClientId)
+    @Html.HiddenFor(m => m.BusinessInfo.Id)
+    @Html.HiddenFor(m => m.BusinessInfo.Name)
+    @Html.HiddenFor(m => m.BusinessInfo.PhoneNumber)
+    @Html.HiddenFor(m => m.BusinessInfo.TaxId)
+    <input type="submit" value="Back">
+}
