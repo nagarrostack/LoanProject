@@ -103,6 +103,17 @@ namespace Loans.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> PostClientInfo([FromForm] FullEditLoan editLoan)
         {
+            loanBL.IgnoreSectionModelState("BusinessInfo", ModelState);
+            loanBL.IgnoreSectionModelState("LoanInfo", ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                editLoan.CountryCatalog = loanBL.fillCatalog("Country");
+                editLoan.GenderCatalog = loanBL.fillCatalog("Gender");
+                editLoan.TitleCatalog = loanBL.fillCatalog("Title");
+
+                return View("ClientInfo", editLoan);
+            }
             editLoan.BusinessInfo.ClientId = editLoan.ClientInfo.Id;
             return View("BusinessData", editLoan);
         }
@@ -110,6 +121,12 @@ namespace Loans.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> PostBusinessData([FromForm] FullEditLoan editLoan)
         {
+            loanBL.IgnoreSectionModelState("LoanInfo", ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return View("BusinessData", editLoan);
+            }
             return View("LoanData", editLoan);
         }
 
@@ -121,6 +138,12 @@ namespace Loans.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> PostLoanData([FromForm] FullEditLoan editLoan)
         {
+            loanBL.IgnoreSectionModelState("", ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return View("LoanData", editLoan);
+            }
 
             var resultClient = await clientsService.SaveClientAsync(new BL.Client.Dtos.ClientDto
             {
@@ -135,7 +158,7 @@ namespace Loans.WebApp.Controllers
             var resultBusiness = await businessService.SaveClientBusinessAsync(new BL.Client.Dtos.ClientBusinessDto
             {
                 Address = editLoan.BusinessInfo.Address,
-                ClientId = editLoan.ClientInfo.Id,
+                ClientId = resultClient.Id,
                 Id = editLoan.BusinessInfo.Id,
                 Name = editLoan.BusinessInfo.Name,
                 PhoneNumber = editLoan.BusinessInfo.PhoneNumber,
@@ -145,7 +168,7 @@ namespace Loans.WebApp.Controllers
             {
                 AmountRequest = editLoan.LoanInfo.AmountRequest,
                 APR = editLoan.LoanInfo.APR,
-                ClientId = editLoan.LoanInfo.ClientId,
+                ClientId = resultClient.Id,
                 Id = editLoan.LoanInfo.Id,
                 LateLoans = editLoan.LoanInfo.LateLoans,
                 LoanDate = editLoan.LoanInfo.LoanDate,
@@ -161,6 +184,11 @@ namespace Loans.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> BackwardClientInfo([FromForm] FullEditLoan editLoan)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("BusinessData", editLoan);
+            }
+
             editLoan.CountryCatalog = loanBL.fillCatalog("Country");
             editLoan.GenderCatalog = loanBL.fillCatalog("Gender");
             editLoan.TitleCatalog = loanBL.fillCatalog("Title");
@@ -173,8 +201,8 @@ namespace Loans.WebApp.Controllers
             FullEditLoan newLoanData = new FullEditLoan
             {
                 CountryCatalog = loanBL.fillCatalog("Country"),
-                GenderCatalog = loanBL.fillCatalog("Country"),
-                TitleCatalog = loanBL.fillCatalog("Country"),
+                GenderCatalog = loanBL.fillCatalog("Gender"),
+                TitleCatalog = loanBL.fillCatalog("Title"),
                 BusinessInfo = new ClientBusiness(),
                 ClientInfo = new Client(),
                 LoanInfo = new Loan()

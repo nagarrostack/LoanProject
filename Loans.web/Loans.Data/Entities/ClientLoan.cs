@@ -14,7 +14,7 @@ namespace Loans.Data.Entities
 
         public float Risk
         {
-            get => (float)((LateLoans / QtyMonthsPayment) * (OutstandingDebt / AmountRequest)) * 100f;
+            get => (QtyMonthsPayment != 0 && AmountRequest != 0) ? (float)((LateLoans / QtyMonthsPayment) * (OutstandingDebt / AmountRequest)) * 100f : 0f;
         }
 
         //public IList<LoanPayment> LoanPayments { get; private set; } = new List<LoanPayment>();

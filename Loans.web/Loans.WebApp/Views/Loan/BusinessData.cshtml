@@ -4,30 +4,32 @@
 
 <h2>Loan</h2>
 @section scripts{
-    <partial name="_ValidationScriptsPartial" />
+<partial name="_ValidationScriptsPartial" />
 }
+
 @using (Html.BeginForm("PostBusinessData", "Loan", FormMethod.Post))
 {
-    @Model.BusinessInfo.Id
-    <br />
-
-    @Model.BusinessInfo.ClientId
-    <br />
+    @Html.HiddenFor(m => m.BusinessInfo.Id)
+    @Html.HiddenFor(m => m.BusinessInfo.ClientId)
 
     @Html.Label("Business' name:")
     @Html.TextBoxFor(m => m.BusinessInfo.Name)
+    <span asp-validation-for="BusinessInfo.Name" class="text-danger"></span>
     <br />
 
     @Html.Label("Address:")
     @Html.TextBoxFor(m => m.BusinessInfo.Address)
+    <span asp-validation-for="BusinessInfo.Address" class="text-danger"></span>
     <br />
 
     @Html.Label("Phone number:")
     @Html.TextBoxFor(m => m.BusinessInfo.PhoneNumber)
+    <span asp-validation-for="BusinessInfo.PhoneNumber" class="text-danger"></span>
     <br />
 
     @Html.Label("Tax Id:")
     @Html.TextBoxFor(m => m.BusinessInfo.TaxId)
+    <span asp-validation-for="BusinessInfo.TaxId" class="text-danger"></span>
     <br />
 
     @Html.HiddenFor(m => m.ClientInfo.CountryId)
