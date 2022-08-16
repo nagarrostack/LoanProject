@@ -220,6 +220,18 @@ namespace Loans.WebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Search()
+        {
+            Search search = new Search();
+            return View("SearchLoan", search);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SearchLoan(Search search)
+        {
+            search.Results = await loanBL.Search(search);
+            return View("SearchLoan", search);
+        }
 
     }
 }

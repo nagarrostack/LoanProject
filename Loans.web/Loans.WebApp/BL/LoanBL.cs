@@ -1,4 +1,5 @@
-﻿using Loans.BL.Client.Interfaces;
+﻿using Loans.BL.Client.Dtos;
+using Loans.BL.Client.Interfaces;
 using Loans.BL.Configuration.Interfaces;
 using Loans.BL.Loan.Dtos;
 using Loans.BL.Loan.Interfaces;
@@ -103,6 +104,57 @@ namespace Loans.WebApp.LBL
                 default:
                     break;
             }
+        }
+
+        public async Task<List<Loan>> Search(Search search)
+        {
+
+            List<ClientDto> clients = new List<ClientDto>();
+            List<ClientBusinessDto> business = new List<ClientBusinessDto>();
+
+            if (search.CountryId != null && search.CountryId != 0)
+                clients.AddRange(await clientsService.GetClientByCountryIdAsync(search.CountryId));
+
+            if (!string.IsNullOrEmpty(search.Name))
+                clients.AddRange(await clientsService.GetClientByNameAsync(search.Name));
+
+            if (!string.IsNullOrEmpty(search.BusinessName))
+                business = (List<ClientBusinessDto>)await businessService.GetClientBusinessByNameAsync(search.BusinessName);
+
+            var distinctClients = clients.Select(c => c.Id).Distinct().ToList();
+
+            distinctClients.AddRange(business.Select(b => b.ClientId).ToList());
+
+            distinctClients = distinctClients.Distinct().ToList();
+
+            var loans = await service.GetAllClientLoansAsync();
+
+            List<Loan> result = loans.Where(l =>
+           l.AmountRequest == (search.AmountRequest != 0 ? search.AmountRequest : l.AmountRequest) &&
+           l.QtyMonthsPayment == (search.QtyMonthsPayment != 0 ? search.QtyMonthsPayment : l.QtyMonthsPayment) &&
+           l.APR == (search.APR != 0 ? search.APR : l.APR) &&
+           l.Rating == (search.Rating != 0 ? search.Rating : l.Rating) &&
+           l.OutstandingDebt == (search.OutstandingDebt != 0 ? search.OutstandingDebt : l.OutstandingDebt) &&
+           l.LoanDate == (search.LoanDate != new DateTime() ? search.LoanDate : l.LoanDate) &&
+           l.Risk == (search.Risk != 0 ? search.Risk : l.Risk) &&
+           l.Rating == (search.Rating != 0 ? search.Rating : l.Rating) &&
+           (distinctClients.Count == 0 ?
+           l.ClientId == l.ClientId : distinctClients.Contains(l.ClientId))
+           )
+                .Select(r => new Loan
+                {
+                    Id = r.Id,
+                    AmountRequest = r.AmountRequest,
+                    QtyMonthsPayment = r.QtyMonthsPayment,
+                    APR = r.APR,
+                    Rating = r.Rating,
+                    OutstandingDebt = r.OutstandingDebt,
+                    LoanDate = r.LoanDate,
+                    Risk = r.Risk
+                })
+                .ToList();
+
+            return result;
         }
     }
 }
