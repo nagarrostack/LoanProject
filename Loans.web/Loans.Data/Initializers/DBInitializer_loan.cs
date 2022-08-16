@@ -16,7 +16,7 @@ namespace Loans.Data.Initializers
                     //{
                     List<ClientLoan> loans = new List<ClientLoan>();
 
-                    if (!await context.ClientBusinessInfos.AnyAsync())
+                    if (!await context.ClientLoans.AnyAsync())
                     {
                         Random r = new Random();
                         int c = 0;
