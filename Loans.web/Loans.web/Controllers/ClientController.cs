@@ -8,18 +8,17 @@ namespace Loans.web.Controllers
     [Route("[controller]")]
     public class ClientController : ControllerBase
     {
-
-        private readonly ILogger<LoanController> _logger;
+        private readonly ILogger<ClientController> _logger;
         private readonly IClientsService service;
 
-        public ClientController(ILogger<LoanController> logger, IClientsService clientService)
+        public ClientController(ILogger<ClientController> logger, IClientsService clientService)
         {
             _logger = logger;
             service = clientService;
         }
 
         [HttpGet]
-            public async Task<IEnumerable<Client>> Get()
+        public async Task<IEnumerable<Client>> Get()
         {
             var response = await service.GetAllClientsAsync();
 

@@ -3,13 +3,13 @@
 @model List<Client>
 
 <h2>Clients list</h2>
-<table>
+<table class="table">
     <thead>
         <tr>
             <td>Id</td>
             <td>Name</td>
-            <td><Country/td>
-            <td>Action</td>
+            <td>Country</td>
+            <td colspan="2">Action</td>
         </tr>
     </thead>
     <tbody>
@@ -19,7 +19,8 @@
                 <td>@item.Id</td>
                 <td>@item.Title @item.LastName @item.Name, @item.MidName</td>
                 <td>@item.Country</td>
-                <td>@Html.ActionLink(linkText: item.Id.ToString(), actionName: "Delete", controllerName: "Client")</td>
+                <td>@Html.ActionLink(linkText: "Edit", actionName: "Edit", controllerName: "Client")</td>
+                <td>@Html.ActionLink(linkText: "Delete", actionName: "Delete", controllerName: "Client")</td>
                 <td></td>
             </tr>
         }

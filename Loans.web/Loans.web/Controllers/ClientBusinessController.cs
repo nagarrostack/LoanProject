@@ -8,10 +8,10 @@ namespace Loans.web.Controllers
     [Route("[controller]")]
     public class ClientBusinessController : ControllerBase
     {
-        private readonly ILogger<LoanController> _logger;
+        private readonly ILogger<ClientBusinessController> _logger;
         private readonly IClientBusinessesService service;
 
-        public ClientBusinessController(ILogger<LoanController> logger, IClientBusinessesService catalogService)
+        public ClientBusinessController(ILogger<ClientBusinessController> logger, IClientBusinessesService catalogService)
         {
             _logger = logger;
             service = catalogService;
