@@ -6,34 +6,45 @@
 @section scripts{
     <partial name="_ValidationScriptsPartial" />
 }
+
 @using (Html.BeginForm("PostLoanData", "Loan", FormMethod.Post))
 {
+    @Html.HiddenFor(m => m.LoanInfo.ClientId)
+    @Html.HiddenFor(m => m.LoanInfo.Id)
+
     @Html.Label("Amoubt requested:")
     @Html.TextBoxFor(m => m.LoanInfo.AmountRequest)
+    <span asp-validation-for="LoanInfo.AmountRequest" class="text-danger"></span>
     <br />
 
     @Html.Label("APR:")
     @Html.TextBoxFor(m => m.LoanInfo.APR)
+    <span asp-validation-for="LoanInfo.APR" class="text-danger"></span>
     <br />
 
     @Html.Label("Loan Date")
     @Html.TextBoxFor(m => m.LoanInfo.LoanDate)
+    <span asp-validation-for="LoanInfo.LoanDate" class="text-danger"></span>
     <br />
 
     @Html.Label("Outstanding debt:")
     @Html.TextBoxFor(m => m.LoanInfo.OutstandingDebt)
+    <span asp-validation-for="LoanInfo.OutstandingDebt" class="text-danger"></span>
     <br />
 
     @Html.Label("Quantity of months to pay:")
     @Html.TextBoxFor(m => m.LoanInfo.QtyMonthsPayment)
+    <span asp-validation-for="LoanInfo.QtyMonthsPayment" class="text-danger"></span>
     <br />
 
     @Html.Label("Rating:")
     @Html.TextBoxFor(m => m.LoanInfo.Rating)
+    <span asp-validation-for="LoanInfo.Rating" class="text-danger"></span>
     <br />
 
     @Html.Label("Risk:")
     @Html.TextBoxFor(m => m.LoanInfo.Risk)
+    <span asp-validation-for="LoanInfo.Risk" class="text-danger"></span>
     <br />
 
     @Html.HiddenFor(m => m.ClientInfo.CountryId)
