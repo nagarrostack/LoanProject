@@ -1,6 +1,7 @@
 using Loans.BL.Client.Interfaces;
 using Loans.BL.Configuration.Interfaces;
 using Loans.BL.Loan.Interfaces;
+using Loans.WebApp.LBL;
 using Loans.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace Loans.WebApp.Controllers
         private readonly ICatalogService catalogsService;
         private readonly ITypeCatalogService typeCatalogsService;
 
+        private LoanBL loanBL;
 
         public LoanController(ILogger<LoanController> logger,
             ITypeCatalogService typeCatalogsService,
@@ -30,49 +32,30 @@ namespace Loans.WebApp.Controllers
             this.clientsService = clientsService;
             this.businessService = businessService;
             service = loanService;
+
+            loanBL = new LoanBL(typeCatalogsService, catalogsService, clientsService, businessService, loanService);
         }
 
         public async Task<ActionResult> Index()
         {
             var clientLoans = await service.GetAllClientLoansAsync();
 
-            var response =
-                clientLoans.Select(c => new Loan
-                {
-                    Id = c.Id,
-                    AmountRequest = c.AmountRequest,
-                    APR = c.APR,
-                    ClientId = c.ClientId,
-                    LateLoans = c.LateLoans,
-                    LoanDate = c.LoanDate,
-                    OutstandingDebt = c.OutstandingDebt,
-                    QtyMonthsPayment = c.QtyMonthsPayment,
-                    Rating = c.Rating,
-                    Risk = c.Risk
-                }).ToList();
+            var response = clientLoans.Select(c => loanBL.ToLoan(c)).ToList();
 
             return View(response);
         }
 
         public async Task<ActionResult> ClientInfo(int? id)
         {
-            var catGenderId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Gender");
-            var catCountryId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Country");
-            var catTitleId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Title");
-
-            var countries = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catCountryId.First().Id);
-            var genders = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catGenderId.First().Id);
-            var titles = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catTitleId.First().Id);
-
             var loanData = await service.GetClientLoansById(id.Value);
             var clientData = await clientsService.GetClientByIdAsync(loanData.ClientId);
             var businessData = (await businessService.GetClientBusinessesByClientIdAsync(loanData.ClientId)).FirstOrDefault();
 
             FullEditLoan editLoan = new FullEditLoan
             {
-                CountryCatalog = countries.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList(),
-                GenderCatalog = genders.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList(),
-                TitleCatalog = titles.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList(),
+                CountryCatalog = loanBL.fillCatalog("Country"),
+                GenderCatalog = loanBL.fillCatalog("Gender"),
+                TitleCatalog = loanBL.fillCatalog("Title"),
                 ClientInfo = new Client
                 {
                     CountryId = clientData.CountryId,
@@ -178,35 +161,20 @@ namespace Loans.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> BackwardClientInfo([FromForm] FullEditLoan editLoan)
         {
-            var catGenderId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Gender");
-            var catCountryId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Country");
-            var catTitleId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Title");
-
-            var countries = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catCountryId.First().Id);
-            var genders = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catGenderId.First().Id);
-            var titles = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catTitleId.First().Id);
-
-            editLoan.CountryCatalog = countries.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList();
-            editLoan.GenderCatalog = genders.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList();
-            editLoan.TitleCatalog = titles.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList();
+            editLoan.CountryCatalog = loanBL.fillCatalog("Country");
+            editLoan.GenderCatalog = loanBL.fillCatalog("Gender");
+            editLoan.TitleCatalog = loanBL.fillCatalog("Title");
 
             return View("ClientInfo", editLoan);
         }
 
         public async Task<ActionResult> NewLoanInfo()
         {
-            var catGenderId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Gender");
-            var catCountryId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Country");
-            var catTitleId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Title");
-
-            var countries = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catCountryId.First().Id);
-            var genders = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catGenderId.First().Id);
-            var titles = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catTitleId.First().Id);
             FullEditLoan newLoanData = new FullEditLoan
             {
-                CountryCatalog = countries.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList(),
-                GenderCatalog = genders.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList(),
-                TitleCatalog = titles.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList(),
+                CountryCatalog = loanBL.fillCatalog("Country"),
+                GenderCatalog = loanBL.fillCatalog("Country"),
+                TitleCatalog = loanBL.fillCatalog("Country"),
                 BusinessInfo = new ClientBusiness(),
                 ClientInfo = new Client(),
                 LoanInfo = new Loan()
@@ -214,5 +182,16 @@ namespace Loans.WebApp.Controllers
 
             return View("ClientInfo", newLoanData);
         }
+
+        public async Task<ActionResult> Delete(int? id)
+        {
+            if (id.HasValue)
+            {
+                var result = await service.DeleteClientLoan(id.Value);
+            }
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

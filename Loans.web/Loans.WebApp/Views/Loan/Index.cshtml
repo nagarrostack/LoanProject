@@ -25,16 +25,16 @@
             <tr>
                 <td>@item.Id</td>
                 <td>@item.ClientId</td>
-                <td>@item.AmountRequest</td>
+                <td>@item.AmountRequest.ToString("c")</td>
                 <td>@item.APR</td>
                 <td>@item.LateLoans</td>
-                <td>@item.LoanDate</td>
-                <td>@item.OutstandingDebt</td>
+                <td>@item.LoanDate.ToShortDateString()</td>
+                <td>@item.OutstandingDebt.ToString("c")</td>
                 <td>@item.QtyMonthsPayment</td>
                 <td>@item.Rating</td>
                 <td>@item.Risk</td>
                 <td>@Html.ActionLink(linkText: "Edit", actionName: "ClientInfo", controllerName: "Loan", routeValues:new {@id=item.Id})</td>
-                <td>@Html.ActionLink(linkText: "Delete", actionName: "Delete", controllerName: "Loan", routeValues:new {@id=item.Id})</td>
+                <td>@Html.ActionLink(linkText: "Delete", actionName: "Delete", controllerName: "Loan", routeValues:new {@id=item.Id}, htmlAttributes:new {onclick="return confirm('Are you sure you wish to delete this loan record?')"})</td>
                 <td></td>
             </tr>
         }
