@@ -1,0 +1,80 @@
+﻿@using Loans.WebApp.Models
+
+@model Search
+
+<h2>Search Loans</h2>
+
+@using (Html.BeginForm("SearchLoan", "Loan", FormMethod.Post))
+{
+    @Html.Label("Client's name")
+    @Html.TextBoxFor(m => m.Name)
+    
+    @Html.Label("Client's middle name")
+    @Html.TextBoxFor(m => m.MidName)
+    
+    @Html.Label("Client's last name")
+    @Html.TextBoxFor(m => m.LastName)
+    
+    @Html.Label("Business client's name")
+    @Html.TextBoxFor(m => m.BusinessName)
+    
+    @Html.Label("Amount requested")
+    @Html.TextBoxFor(m => m.AmountRequest)
+    
+    @Html.Label("Quantity of months to pay")
+    @Html.TextBoxFor(m => m.QtyMonthsPayment)
+    
+    @Html.Label("APR")
+    @Html.TextBoxFor(m => m.APR)
+    
+    @Html.Label("Client's rating")
+    @Html.TextBoxFor(m => m.Rating)
+    
+    @Html.Label("Loan's outstanding debt")
+    @Html.TextBoxFor(m => m.OutstandingDebt)
+    
+    @Html.Label("Loan's date")
+    @Html.TextBoxFor(m => m.LoanDate, "dd/mm/yyyy")
+    
+    @Html.Label("Client's risk")
+    @Html.TextBoxFor(m => m.Risk)
+
+    <input type="submit" value="Search">
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Client Id</td>
+            <td>Amount requested</td>
+            <td>ARP</td>
+            <td>Late loans</td>
+            <td>Loan date</td>
+            <td>Outstanding debt</td>
+            <td>Payment months</td>
+            <td>Rating</td>
+            <td>Risk</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Results)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.ClientId</td>
+                <td>@item.AmountRequest.ToString("c")</td>
+                <td>@item.APR</td>
+                <td>@item.LateLoans</td>
+                <td>@item.LoanDate.ToShortDateString()</td>
+                <td>@item.OutstandingDebt.ToString("c")</td>
+                <td>@item.QtyMonthsPayment</td>
+                <td>@item.Rating</td>
+                <td>@item.Risk</td>
+                <td>@Html.ActionLink(linkText: "Edit", actionName: "ClientInfo", controllerName: "Loan", routeValues:new {@id=item.Id})</td>
+                <td>@Html.ActionLink(linkText: "Delete", actionName: "Delete", controllerName: "Loan", routeValues:new {@id=item.Id}, htmlAttributes:new {onclick="return confirm('Are you sure you wish to delete this loan record?')"})</td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
