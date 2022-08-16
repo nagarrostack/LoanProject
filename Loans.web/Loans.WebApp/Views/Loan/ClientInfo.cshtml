@@ -3,6 +3,9 @@
 @model FullEditLoan
 
 <h2>Loan</h2>
+@section scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
 
 @using (Html.BeginForm("PostClientInfo", "Loan", FormMethod.Post))
 {
@@ -12,30 +15,36 @@
     @Html.DropDownListFor(m => m.ClientInfo.TitleId,
     new SelectList(Model.TitleCatalog, "Id", "Name"),
     "Select Title")
+    <span asp-validation-for="ClientInfo.TitleId" class="text-danger"></span>
     <br />
 
     @Html.Label("Last name:")
     @Html.TextBoxFor(m => m.ClientInfo.LastName)
+    <span asp-validation-for="ClientInfo.LastName" class="text-danger"></span>
     <br />
 
     @Html.Label("Mid name:")
     @Html.TextBoxFor(m => m.ClientInfo.MidName)
+    <span asp-validation-for="ClientInfo.MidName" class="text-danger"></span>
     <br />
 
     @Html.Label("First name:")
     @Html.TextBoxFor(m => m.ClientInfo.Name)
+    <span asp-validation-for="ClientInfo.Name" class="text-danger"></span>
     <br />
 
     @Html.Label("Gender:")
     @Html.DropDownListFor(m => m.ClientInfo.GenderId,
     new SelectList(Model.GenderCatalog, "Id", "Name"),
     "Select Gender")
+    <span asp-validation-for="ClientInfo.GenderId" class="text-danger"></span>
     <br />
 
     @Html.Label("Country:")
     @Html.DropDownListFor(m => m.ClientInfo.CountryId,
     new SelectList(Model.CountryCatalog, "Id", "Name"),
     "Select Country")
+    <span asp-validation-for="ClientInfo.CountryId" class="text-danger"></span>
     <br />
 
     @Html.HiddenFor(m => m.BusinessInfo.Address)
