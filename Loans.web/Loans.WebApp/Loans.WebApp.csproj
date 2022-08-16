@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\BusinessInfoView.cshtml" />
+    <Content Remove="Views\LoanInfoView.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Loans.BL\Loans.BL.csproj" />
   </ItemGroup>
 

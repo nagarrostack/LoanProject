@@ -3,6 +3,9 @@
 @model FullEditLoan
 
 <h2>Loan</h2>
+@section scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
 @using (Html.BeginForm("PostLoanData", "Loan", FormMethod.Post))
 {
     @Html.Label("Amoubt requested:")
