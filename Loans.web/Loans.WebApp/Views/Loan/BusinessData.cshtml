@@ -47,5 +47,34 @@
     @Html.HiddenFor(m => m.LoanInfo.Risk)
 
     <input type="submit" value="Continue">
+}
 
+@using (Html.BeginForm("BackwardClientInfo", "Loan", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.ClientInfo.CountryId)
+    @Html.HiddenFor(m => m.ClientInfo.GenderId)
+    @Html.HiddenFor(m => m.ClientInfo.Id)
+    @Html.HiddenFor(m => m.ClientInfo.LastName)
+    @Html.HiddenFor(m => m.ClientInfo.MidName)
+    @Html.HiddenFor(m => m.ClientInfo.Name)
+    @Html.HiddenFor(m => m.ClientInfo.TitleId)
+
+    @Html.HiddenFor(m => m.BusinessInfo.Address)
+    @Html.HiddenFor(m => m.BusinessInfo.ClientId)
+    @Html.HiddenFor(m => m.BusinessInfo.Id)
+    @Html.HiddenFor(m => m.BusinessInfo.Name)
+    @Html.HiddenFor(m => m.BusinessInfo.PhoneNumber)
+    @Html.HiddenFor(m => m.BusinessInfo.TaxId)
+
+    @Html.HiddenFor(m => m.LoanInfo.AmountRequest)
+    @Html.HiddenFor(m => m.LoanInfo.APR)
+    @Html.HiddenFor(m => m.LoanInfo.ClientId)
+    @Html.HiddenFor(m => m.LoanInfo.Id)
+    @Html.HiddenFor(m => m.LoanInfo.LateLoans)
+    @Html.HiddenFor(m => m.LoanInfo.LoanDate)
+    @Html.HiddenFor(m => m.LoanInfo.OutstandingDebt)
+    @Html.HiddenFor(m => m.LoanInfo.QtyMonthsPayment)
+    @Html.HiddenFor(m => m.LoanInfo.Rating)
+    @Html.HiddenFor(m => m.LoanInfo.Risk)
+    <input type="submit" value="Back">
 }

@@ -149,7 +149,8 @@ namespace Loans.WebApp.Controllers
                 Name = editLoan.ClientInfo.Name,
                 TitleId = editLoan.ClientInfo.TitleId
             });
-            var resultBusiness = await businessService.SaveClientBusinessAsync(new BL.Client.Dtos.ClientBusinessDto { 
+            var resultBusiness = await businessService.SaveClientBusinessAsync(new BL.Client.Dtos.ClientBusinessDto
+            {
                 Address = editLoan.BusinessInfo.Address,
                 ClientId = editLoan.ClientInfo.Id,
                 Id = editLoan.BusinessInfo.Id,
@@ -157,7 +158,8 @@ namespace Loans.WebApp.Controllers
                 PhoneNumber = editLoan.BusinessInfo.PhoneNumber,
                 TaxId = editLoan.BusinessInfo.TaxId
             });
-            var resultLoan = await service.SaveClientLoans(new BL.Loan.Dtos.ClientLoanDto { 
+            var resultLoan = await service.SaveClientLoans(new BL.Loan.Dtos.ClientLoanDto
+            {
                 AmountRequest = editLoan.LoanInfo.AmountRequest,
                 APR = editLoan.LoanInfo.APR,
                 ClientId = editLoan.LoanInfo.ClientId,
@@ -171,6 +173,46 @@ namespace Loans.WebApp.Controllers
             });
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BackwardClientInfo([FromForm] FullEditLoan editLoan)
+        {
+            var catGenderId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Gender");
+            var catCountryId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Country");
+            var catTitleId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Title");
+
+            var countries = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catCountryId.First().Id);
+            var genders = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catGenderId.First().Id);
+            var titles = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catTitleId.First().Id);
+
+            editLoan.CountryCatalog = countries.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList();
+            editLoan.GenderCatalog = genders.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList();
+            editLoan.TitleCatalog = titles.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList();
+
+            return View("ClientInfo", editLoan);
+        }
+
+        public async Task<ActionResult> NewLoanInfo()
+        {
+            var catGenderId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Gender");
+            var catCountryId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Country");
+            var catTitleId = await typeCatalogsService.GetTypeCatalogsByNameAsync("Title");
+
+            var countries = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catCountryId.First().Id);
+            var genders = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catGenderId.First().Id);
+            var titles = await catalogsService.GetCatalogsByTypeCatalogIdAsync(catTitleId.First().Id);
+            FullEditLoan newLoanData = new FullEditLoan
+            {
+                CountryCatalog = countries.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList(),
+                GenderCatalog = genders.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList(),
+                TitleCatalog = titles.Select(c => new Catalog { Id = c.Id, Name = c.Name }).ToList(),
+                BusinessInfo = new ClientBusiness(),
+                ClientInfo = new Client(),
+                LoanInfo = new Loan()
+            };
+
+            return View("ClientInfo", newLoanData);
         }
     }
 }
