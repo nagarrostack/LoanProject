@@ -4,48 +4,103 @@
 
 <h2>Loan</h2>
 @section scripts{
-    <partial name="_ValidationScriptsPartial" />
+<partial name="_ValidationScriptsPartial" />
 }
 
 @using (Html.BeginForm("PostLoanData", "Loan", FormMethod.Post))
 {
+
     @Html.HiddenFor(m => m.LoanInfo.ClientId)
     @Html.HiddenFor(m => m.LoanInfo.Id)
 
-    @Html.Label("Amoubt requested:")
-    @Html.TextBoxFor(m => m.LoanInfo.AmountRequest)
-    <span asp-validation-for="LoanInfo.AmountRequest" class="text-danger"></span>
-    <br />
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.Label("Amoubt requested:")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.LoanInfo.AmountRequest)
+        </div>
+        <div class="col-sm-2">
+            @Html.Label("APR:")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.LoanInfo.APR)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <span asp-validation-for="LoanInfo.AmountRequest" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6">
+            <span asp-validation-for="LoanInfo.APR" class="text-danger"></span>
+        </div>
+    </div>
 
-    @Html.Label("APR:")
-    @Html.TextBoxFor(m => m.LoanInfo.APR)
-    <span asp-validation-for="LoanInfo.APR" class="text-danger"></span>
-    <br />
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.Label("Loan Date")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.LoanInfo.LoanDate)
+        </div>
+        <div class="col-sm-2">
+            @Html.Label("Outstanding debt:")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.LoanInfo.OutstandingDebt)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <span asp-validation-for="LoanInfo.LoanDate" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6">
+            <span asp-validation-for="LoanInfo.OutstandingDebt" class="text-danger"></span>
+        </div>
+    </div>
 
-    @Html.Label("Loan Date")
-    @Html.TextBoxFor(m => m.LoanInfo.LoanDate)
-    <span asp-validation-for="LoanInfo.LoanDate" class="text-danger"></span>
-    <br />
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.Label("Quantity of months to pay:")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.LoanInfo.QtyMonthsPayment)
+        </div>
+        <div class="col-sm-2">
+            @Html.Label("Rating:")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.LoanInfo.Rating)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <span asp-validation-for="LoanInfo.QtyMonthsPayment" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6">
+            <span asp-validation-for="LoanInfo.Rating" class="text-danger"></span>
+        </div>
+    </div>
 
-    @Html.Label("Outstanding debt:")
-    @Html.TextBoxFor(m => m.LoanInfo.OutstandingDebt)
-    <span asp-validation-for="LoanInfo.OutstandingDebt" class="text-danger"></span>
-    <br />
-
-    @Html.Label("Quantity of months to pay:")
-    @Html.TextBoxFor(m => m.LoanInfo.QtyMonthsPayment)
-    <span asp-validation-for="LoanInfo.QtyMonthsPayment" class="text-danger"></span>
-    <br />
-
-    @Html.Label("Rating:")
-    @Html.TextBoxFor(m => m.LoanInfo.Rating)
-    <span asp-validation-for="LoanInfo.Rating" class="text-danger"></span>
-    <br />
-
+    <div class="row">
+        <div class="col-sm-2">
     @Html.Label("Risk:")
+        </div>
+        <div class="col-sm-4">
     @Html.TextBoxFor(m => m.LoanInfo.Risk)
+        </div>
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-4">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
     <span asp-validation-for="LoanInfo.Risk" class="text-danger"></span>
-    <br />
+        </div>
+        <div class="col-sm-6">
+        </div>
+    </div>
 
     @Html.HiddenFor(m => m.ClientInfo.CountryId)
     @Html.HiddenFor(m => m.ClientInfo.GenderId)
@@ -62,7 +117,7 @@
     @Html.HiddenFor(m => m.BusinessInfo.PhoneNumber)
     @Html.HiddenFor(m => m.BusinessInfo.TaxId)
 
-    <input type="submit" value="Continue">
+    <input type="submit" value="Continue" class="btn btn-outline-primary">
 }
 @using (Html.BeginForm("PostClientInfo", "Loan", FormMethod.Post))
 {
@@ -91,5 +146,5 @@
     @Html.HiddenFor(m => m.LoanInfo.QtyMonthsPayment)
     @Html.HiddenFor(m => m.LoanInfo.Rating)
     @Html.HiddenFor(m => m.LoanInfo.Risk)
-    <input type="submit" value="Back">
+    <input type="submit" value="Back" class="btn btn-outline-secondary">
 }

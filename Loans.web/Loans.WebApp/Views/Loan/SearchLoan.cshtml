@@ -6,40 +6,109 @@
 
 @using (Html.BeginForm("SearchLoan", "Loan", FormMethod.Post))
 {
-    @Html.Label("Client's name")
-    @Html.TextBoxFor(m => m.Name)
-    
-    @Html.Label("Client's middle name")
-    @Html.TextBoxFor(m => m.MidName)
-    
-    @Html.Label("Client's last name")
-    @Html.TextBoxFor(m => m.LastName)
-    
-    @Html.Label("Business client's name")
-    @Html.TextBoxFor(m => m.BusinessName)
-    
-    @Html.Label("Amount requested")
-    @Html.TextBoxFor(m => m.AmountRequest)
-    
-    @Html.Label("Quantity of months to pay")
-    @Html.TextBoxFor(m => m.QtyMonthsPayment)
-    
-    @Html.Label("APR")
-    @Html.TextBoxFor(m => m.APR)
-    
-    @Html.Label("Client's rating")
-    @Html.TextBoxFor(m => m.Rating)
-    
-    @Html.Label("Loan's outstanding debt")
-    @Html.TextBoxFor(m => m.OutstandingDebt)
-    
-    @Html.Label("Loan's date")
-    @Html.TextBoxFor(m => m.LoanDate, "dd/mm/yyyy")
-    
-    @Html.Label("Client's risk")
-    @Html.TextBoxFor(m => m.Risk)
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.Label("Client's name")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.Name)
+        </div>
+        <div class="col-sm-2">
+            @Html.Label("Client's middle name")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.MidName)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.Label("Client's last name")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.LastName)
+        </div>
+        <div class="col-sm-2">
+            @Html.Label("Business client's name")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.BusinessName)
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.Label("Amount requested")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.AmountRequest)
+        </div>
+        <div class="col-sm-2">
+            @Html.Label("Quantity of months to pay")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.QtyMonthsPayment)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.Label("APR")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.APR)
+        </div>
+        <div class="col-sm-2">
+            @Html.Label("Client's rating")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.Rating)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.Label("Loan's outstanding debt")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.OutstandingDebt)
+        </div>
+        <div class="col-sm-2">
+            @Html.Label("Loan's date")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.LoanDate, "dd/mm/yyyy")
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+    @Html.Label("Client's risk")
+        </div>
+        <div class="col-sm-4">
+    @Html.TextBoxFor(m => m.Risk)
+        </div>
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-4">
     <input type="submit" value="Search">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-4">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+        </div>
+    </div>
+
+
 }
 
 <table class="table">
@@ -71,8 +140,8 @@
                 <td>@item.QtyMonthsPayment</td>
                 <td>@item.Rating</td>
                 <td>@item.Risk</td>
-                <td>@Html.ActionLink(linkText: "Edit", actionName: "ClientInfo", controllerName: "Loan", routeValues:new {@id=item.Id})</td>
-                <td>@Html.ActionLink(linkText: "Delete", actionName: "Delete", controllerName: "Loan", routeValues:new {@id=item.Id}, htmlAttributes:new {onclick="return confirm('Are you sure you wish to delete this loan record?')"})</td>
+                <td>@Html.ActionLink(linkText: "Edit", actionName: "ClientInfo", controllerName: "Loan", routeValues:new {@id=item.Id}, htmlAttributes:new {@class= "btn btn-outline-info"})</td>
+                <td>@Html.ActionLink(linkText: "Delete", actionName: "Delete", controllerName: "Loan", routeValues:new {@id=item.Id}, htmlAttributes:new {@class= "btn btn-outline-danger", onclick="return confirm('Are you sure you wish to delete this loan record?')"})</td>
                 <td></td>
             </tr>
         }
