@@ -11,26 +11,52 @@
 {
     @Html.HiddenFor(m => m.BusinessInfo.Id)
     @Html.HiddenFor(m => m.BusinessInfo.ClientId)
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.Label("Business' name:")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.BusinessInfo.Name)
+        </div>
+        <div class="col-sm-2">
+            @Html.Label("Address:")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.BusinessInfo.Address)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <span asp-validation-for="BusinessInfo.Name" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6">
+            <span asp-validation-for="BusinessInfo.Address" class="text-danger"></span>
+        </div>
+    </div>
 
-    @Html.Label("Business' name:")
-    @Html.TextBoxFor(m => m.BusinessInfo.Name)
-    <span asp-validation-for="BusinessInfo.Name" class="text-danger"></span>
-    <br />
+    <div class="row">
+        <div class="col-sm-2">
+            @Html.Label("Phone number:")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.BusinessInfo.PhoneNumber)
+        </div>
+        <div class="col-sm-2">
+            @Html.Label("Tax Id:")
+        </div>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.BusinessInfo.TaxId)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <span asp-validation-for="BusinessInfo.PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6">
+            <span asp-validation-for="BusinessInfo.TaxId" class="text-danger"></span>
+        </div>
+    </div>
 
-    @Html.Label("Address:")
-    @Html.TextBoxFor(m => m.BusinessInfo.Address)
-    <span asp-validation-for="BusinessInfo.Address" class="text-danger"></span>
-    <br />
-
-    @Html.Label("Phone number:")
-    @Html.TextBoxFor(m => m.BusinessInfo.PhoneNumber)
-    <span asp-validation-for="BusinessInfo.PhoneNumber" class="text-danger"></span>
-    <br />
-
-    @Html.Label("Tax Id:")
-    @Html.TextBoxFor(m => m.BusinessInfo.TaxId)
-    <span asp-validation-for="BusinessInfo.TaxId" class="text-danger"></span>
-    <br />
 
     @Html.HiddenFor(m => m.ClientInfo.CountryId)
     @Html.HiddenFor(m => m.ClientInfo.GenderId)
@@ -51,7 +77,7 @@
     @Html.HiddenFor(m => m.LoanInfo.Rating)
     @Html.HiddenFor(m => m.LoanInfo.Risk)
 
-    <input type="submit" value="Continue">
+    <input type="submit" value="Continue" class="btn btn-outline-primary">
 }
 
 @using (Html.BeginForm("BackwardClientInfo", "Loan", FormMethod.Post))
@@ -81,5 +107,5 @@
     @Html.HiddenFor(m => m.LoanInfo.QtyMonthsPayment)
     @Html.HiddenFor(m => m.LoanInfo.Rating)
     @Html.HiddenFor(m => m.LoanInfo.Risk)
-    <input type="submit" value="Back">
+    <input type="submit" value="Back" class="btn btn-outline-secondary">
 }

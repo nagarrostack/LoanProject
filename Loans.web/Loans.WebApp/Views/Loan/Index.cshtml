@@ -16,7 +16,7 @@
             <td>Payment months</td>
             <td>Rating</td>
             <td>Risk</td>
-            <td colspan="2">@Html.ActionLink(linkText: "New", actionName: "NewLoanInfo", controllerName: "Loan")</td>
+            <td colspan="2">@Html.ActionLink(linkText: "New", actionName: "NewLoanInfo", controllerName: "Loan", routeValues:null, htmlAttributes:new {@class="btn btn-outline-success"})</td>
         </tr>
     </thead>
     <tbody>
@@ -33,8 +33,8 @@
                 <td>@item.QtyMonthsPayment</td>
                 <td>@item.Rating</td>
                 <td>@item.Risk</td>
-                <td>@Html.ActionLink(linkText: "Edit", actionName: "ClientInfo", controllerName: "Loan", routeValues:new {@id=item.Id})</td>
-                <td>@Html.ActionLink(linkText: "Delete", actionName: "Delete", controllerName: "Loan", routeValues:new {@id=item.Id}, htmlAttributes:new {onclick="return confirm('Are you sure you wish to delete this loan record?')"})</td>
+                <td>@Html.ActionLink(linkText: "Edit", actionName: "ClientInfo", controllerName: "Loan", routeValues:new {@id=item.Id}, htmlAttributes:new {@class= "btn btn-outline-info"})</td>
+                <td>@Html.ActionLink(linkText: "Delete", actionName: "Delete", controllerName: "Loan", routeValues:new {@id=item.Id}, htmlAttributes:new {@class= "btn btn-outline-danger", onclick="return confirm('Are you sure you wish to delete this loan record?')"})</td>
                 <td></td>
             </tr>
         }

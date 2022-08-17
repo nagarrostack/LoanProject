@@ -184,6 +184,9 @@ namespace Loans.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> BackwardClientInfo([FromForm] FullEditLoan editLoan)
         {
+            loanBL.IgnoreSectionModelState("LoanInfo", ModelState);
+            loanBL.IgnoreSectionModelState("BusinessInfo", ModelState);
+
             if (!ModelState.IsValid)
             {
                 return View("BusinessData", editLoan);
